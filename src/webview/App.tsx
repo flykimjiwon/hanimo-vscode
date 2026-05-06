@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { ChatSession, ChatTurn, ViewName } from './state';
 import { ConfigDTO, ModelDTO, KnowledgeFile, Skill, Permissions } from '../services/api';
 import { Header } from './components/Header';
+import { ThemePicker, applyStoredTheme } from './components/ThemePicker';
 import { EmptyState } from './components/EmptyState';
 import { Composer } from './components/Composer';
 import { BottomBar } from './components/BottomBar';
@@ -37,9 +38,11 @@ export function App() {
   const [toast, setToast] = useState<{ kind: 'success' | 'error' | 'info'; message: string } | null>(null);
   const [totalTokens, setTotalTokens] = useState(0);
   const [input, setInput] = useState('');
+  const [themePickerOpen, setThemePickerOpen] = useState(false);
   const turnsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    applyStoredTheme();
     vscode.postMessage({ type: 'ready' });
     vscode.postMessage({ type: 'listModels' });
     const onMsg = (ev: MessageEvent) => {
@@ -239,7 +242,7 @@ export function App() {
 
   return (
     <div class="app">
-      <Header view={view} onNavigate={setView} />
+      <Header view={view} onNavigate={setView} onOpenThemePicker={() => setThemePickerOpen(true)} />
       {renderBody()}
       {pendingConfirm && (
         <ConfirmModal
@@ -249,6 +252,7 @@ export function App() {
           onDeny={() => confirmTool(pendingConfirm.id, false)}
         />
       )}
+      <ThemePicker open={themePickerOpen} onClose={() => setThemePickerOpen(false)} />
       {toast && (
         <div class={`toast toast-${toast.kind}`}>{toast.message}</div>
       )}

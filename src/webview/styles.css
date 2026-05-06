@@ -30,6 +30,175 @@
   --hanimo-border: var(--vscode-panel-border);
 }
 
+/* ---------------------------------------------------------------------------
+ * Theme presets — body.t-<id> overrides --hanimo-* tokens with hand-picked
+ * palettes. Defaults (no class) inherit VS Code theme variables so the
+ * extension blends with the host. Theme palettes are mirrored from the
+ * hanimo-code-desktop ThemePicker so the same `--hanimo-theme` localStorage
+ * key swaps both UIs in lockstep.
+ *
+ * Each block sets at minimum: bg / bg-elev / fg trio / accent / border.
+ * --hanimo-accent-glow is a translucent accent for hover/active surfaces.
+ * ---------------------------------------------------------------------------
+ */
+
+body.t-honey {
+  --hanimo-bg: #1a1410;
+  --hanimo-bg-elev: #221a14;
+  --hanimo-fg: #f4ecd8;
+  --hanimo-fg-dim: rgba(244, 236, 216, 0.65);
+  --hanimo-fg-faint: rgba(244, 236, 216, 0.4);
+  --hanimo-border: rgba(245, 166, 35, 0.18);
+  --hanimo-accent: #f5a623;
+  --hanimo-accent-soft: #e8a317;
+  --hanimo-accent-glow: rgba(245, 166, 35, 0.22);
+  --hanimo-brand: #f5a623;
+  --hanimo-brand-soft: #e8a317;
+}
+body.t-slate {
+  --hanimo-bg: #0a0a0c;
+  --hanimo-bg-elev: #111115;
+  --hanimo-fg: #e4e4e7;
+  --hanimo-fg-dim: rgba(228, 228, 231, 0.65);
+  --hanimo-fg-faint: rgba(228, 228, 231, 0.4);
+  --hanimo-border: rgba(255, 255, 255, 0.1);
+  --hanimo-accent: #3b82f6;
+  --hanimo-accent-soft: #60a5fa;
+  --hanimo-accent-glow: rgba(59, 130, 246, 0.25);
+  --hanimo-brand: #1e3a8a;
+  --hanimo-brand-soft: #1e40af;
+}
+body.t-cursor {
+  --hanimo-bg: #0e0e10;
+  --hanimo-bg-elev: #161618;
+  --hanimo-fg: #e4e4e7;
+  --hanimo-fg-dim: rgba(228, 228, 231, 0.65);
+  --hanimo-fg-faint: rgba(228, 228, 231, 0.4);
+  --hanimo-border: rgba(255, 255, 255, 0.1);
+  --hanimo-accent: #f54e00;
+  --hanimo-accent-soft: #ff7a3d;
+  --hanimo-accent-glow: rgba(245, 78, 0, 0.22);
+  --hanimo-brand: #f54e00;
+  --hanimo-brand-soft: #c93e00;
+}
+body.t-linear {
+  --hanimo-bg: #0c0c14;
+  --hanimo-bg-elev: #12121e;
+  --hanimo-fg: #e8e8f0;
+  --hanimo-fg-dim: rgba(232, 232, 240, 0.65);
+  --hanimo-fg-faint: rgba(232, 232, 240, 0.4);
+  --hanimo-border: rgba(124, 58, 237, 0.2);
+  --hanimo-accent: #7c3aed;
+  --hanimo-accent-soft: #a78bfa;
+  --hanimo-accent-glow: rgba(124, 58, 237, 0.22);
+  --hanimo-brand: #5b21b6;
+  --hanimo-brand-soft: #7c3aed;
+}
+body.t-github {
+  --hanimo-bg: #0d1117;
+  --hanimo-bg-elev: #161b22;
+  --hanimo-fg: #c9d1d9;
+  --hanimo-fg-dim: rgba(201, 209, 217, 0.65);
+  --hanimo-fg-faint: rgba(201, 209, 217, 0.4);
+  --hanimo-border: rgba(48, 54, 61, 0.8);
+  --hanimo-accent: #58a6ff;
+  --hanimo-accent-soft: #79c0ff;
+  --hanimo-accent-glow: rgba(88, 166, 255, 0.2);
+  --hanimo-brand: #1f6feb;
+  --hanimo-brand-soft: #58a6ff;
+}
+body.t-dracula {
+  --hanimo-bg: #282a36;
+  --hanimo-bg-elev: #343746;
+  --hanimo-fg: #f8f8f2;
+  --hanimo-fg-dim: rgba(248, 248, 242, 0.7);
+  --hanimo-fg-faint: rgba(248, 248, 242, 0.45);
+  --hanimo-border: rgba(98, 114, 164, 0.35);
+  --hanimo-accent: #bd93f9;
+  --hanimo-accent-soft: #ff79c6;
+  --hanimo-accent-glow: rgba(189, 147, 249, 0.22);
+  --hanimo-brand: #6272a4;
+  --hanimo-brand-soft: #bd93f9;
+}
+body.t-nord {
+  --hanimo-bg: #2e3440;
+  --hanimo-bg-elev: #3b4252;
+  --hanimo-fg: #eceff4;
+  --hanimo-fg-dim: rgba(236, 239, 244, 0.7);
+  --hanimo-fg-faint: rgba(236, 239, 244, 0.45);
+  --hanimo-border: rgba(76, 86, 106, 0.55);
+  --hanimo-accent: #88c0d0;
+  --hanimo-accent-soft: #8fbcbb;
+  --hanimo-accent-glow: rgba(136, 192, 208, 0.22);
+  --hanimo-brand: #5e81ac;
+  --hanimo-brand-soft: #88c0d0;
+}
+body.t-onedark {
+  --hanimo-bg: #282c34;
+  --hanimo-bg-elev: #2c313a;
+  --hanimo-fg: #abb2bf;
+  --hanimo-fg-dim: rgba(171, 178, 191, 0.7);
+  --hanimo-fg-faint: rgba(171, 178, 191, 0.45);
+  --hanimo-border: rgba(62, 68, 82, 0.7);
+  --hanimo-accent: #61afef;
+  --hanimo-accent-soft: #56b6c2;
+  --hanimo-accent-glow: rgba(97, 175, 239, 0.22);
+  --hanimo-brand: #4d78cc;
+  --hanimo-brand-soft: #61afef;
+}
+body.t-monokai {
+  --hanimo-bg: #2d2a2e;
+  --hanimo-bg-elev: #383539;
+  --hanimo-fg: #fcfcfa;
+  --hanimo-fg-dim: rgba(252, 252, 250, 0.7);
+  --hanimo-fg-faint: rgba(252, 252, 250, 0.45);
+  --hanimo-border: rgba(64, 62, 65, 0.7);
+  --hanimo-accent: #ffd866;
+  --hanimo-accent-soft: #fc9867;
+  --hanimo-accent-glow: rgba(255, 216, 102, 0.2);
+  --hanimo-brand: #423f44;
+  --hanimo-brand-soft: #ffd866;
+}
+body.t-solarized {
+  --hanimo-bg: #002b36;
+  --hanimo-bg-elev: #073642;
+  --hanimo-fg: #fdf6e3;
+  --hanimo-fg-dim: rgba(253, 246, 227, 0.7);
+  --hanimo-fg-faint: rgba(253, 246, 227, 0.45);
+  --hanimo-border: rgba(7, 54, 66, 0.85);
+  --hanimo-accent: #268bd2;
+  --hanimo-accent-soft: #2aa198;
+  --hanimo-accent-glow: rgba(38, 139, 210, 0.22);
+  --hanimo-brand: #073642;
+  --hanimo-brand-soft: #268bd2;
+}
+body.t-claude {
+  --hanimo-bg: #faf9f5;
+  --hanimo-bg-elev: #f0efe7;
+  --hanimo-fg: #141413;
+  --hanimo-fg-dim: rgba(20, 20, 19, 0.7);
+  --hanimo-fg-faint: rgba(20, 20, 19, 0.45);
+  --hanimo-border: rgba(0, 0, 0, 0.1);
+  --hanimo-accent: #c96442;
+  --hanimo-accent-soft: #d97757;
+  --hanimo-accent-glow: rgba(201, 100, 66, 0.2);
+  --hanimo-brand: #c96442;
+  --hanimo-brand-soft: #d97757;
+}
+body.t-vercel {
+  --hanimo-bg: #ffffff;
+  --hanimo-bg-elev: #f5f5f5;
+  --hanimo-fg: #171717;
+  --hanimo-fg-dim: rgba(23, 23, 23, 0.7);
+  --hanimo-fg-faint: rgba(23, 23, 23, 0.45);
+  --hanimo-border: rgba(0, 0, 0, 0.08);
+  --hanimo-accent: #171717;
+  --hanimo-accent-soft: #404040;
+  --hanimo-accent-glow: rgba(0, 0, 0, 0.08);
+  --hanimo-brand: #171717;
+  --hanimo-brand-soft: #404040;
+}
+
 html, body { padding: 0; margin: 0; height: 100%; font-family: var(--vscode-font-family); color: var(--hanimo-fg); background: var(--hanimo-bg); }
 * { box-sizing: border-box; }
 button { font-family: inherit; }
@@ -386,4 +555,157 @@ button { font-family: inherit; }
 .status-pill .mini-spin {
   width: 8px; height: 8px; border: 1.5px solid currentColor; border-right-color: transparent;
   border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+
+/* ============================================================================
+ * Polish layer — refines bubbles, tabs, composer, empty state, send button.
+ * Listed last so it overrides the base rules above without rewriting them.
+ * ============================================================================
+ */
+
+/* — Header tab: smooth underline transition with subtle hover state — */
+.header .tab {
+  padding: 6px 2px;
+  transition: color 0.15s ease;
+  position: relative;
+}
+.header .tab::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: var(--hanimo-accent);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 0.18s ease;
+  border-radius: 1px;
+}
+.header .tab.active::after { transform: scaleX(1); }
+.header .tab:hover { color: var(--hanimo-fg); }
+.header .tab.active::after { transform: scaleX(1); }
+
+/* — User bubble: gradient + lifted shadow. Caps width so long pastes don't span the full panel. — */
+.turn.user .bubble {
+  background: linear-gradient(135deg, var(--hanimo-accent) 0%, var(--hanimo-accent-soft) 100%);
+  box-shadow: 0 2px 8px var(--hanimo-accent-glow), 0 1px 0 rgba(0,0,0,0.04) inset;
+  letter-spacing: 0.005em;
+  transition: transform 0.12s ease;
+}
+.turn.user { max-width: 88%; }
+
+/* — Assistant bubble: subtle elevated card on hover (helps scan long threads) — */
+.turn.assistant .bubble {
+  padding: 4px 2px;
+  border-radius: var(--hanimo-radius-md);
+  transition: background 0.15s ease;
+}
+
+/* — Tool turn: lift on hover, smoother corner — */
+.turn.tool {
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.turn.tool:hover {
+  border-left-color: var(--hanimo-accent-soft);
+  background: color-mix(in srgb, var(--hanimo-accent) 4%, var(--hanimo-bg-elev));
+}
+
+/* — Composer: pulsating focus-within ring, calmer idle border — */
+.composer {
+  border-color: var(--hanimo-border);
+  box-shadow: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.composer:focus-within {
+  border-color: var(--hanimo-accent);
+  box-shadow: 0 0 0 3px var(--hanimo-accent-glow), 0 4px 16px color-mix(in srgb, var(--hanimo-accent) 12%, transparent);
+}
+
+/* — Send button: micro-press feedback — */
+.composer .send-btn {
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+  box-shadow: 0 1px 3px var(--hanimo-accent-glow);
+}
+.composer .send-btn:hover:not(:disabled) {
+  background: var(--hanimo-accent-soft);
+  box-shadow: 0 2px 8px var(--hanimo-accent-glow);
+}
+.composer .send-btn:active:not(:disabled) { transform: scale(0.94); }
+
+/* — Mode chip: pill-shaped with soft hover — */
+.composer .mode-chip {
+  border-radius: 12px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.composer .mode-chip:hover {
+  background: var(--hanimo-accent-glow);
+  color: var(--hanimo-accent);
+}
+
+/* — Empty state: subtle radial accent behind the logo — */
+.empty {
+  background:
+    radial-gradient(ellipse 320px 240px at 50% 38%,
+      color-mix(in srgb, var(--hanimo-accent) 8%, transparent) 0%,
+      transparent 70%);
+}
+.empty .logo {
+  color: var(--hanimo-accent);
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 12px var(--hanimo-accent-glow));
+  animation: empty-float 4s ease-in-out infinite;
+}
+@keyframes empty-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+.empty .pill {
+  transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+  border-color: color-mix(in srgb, var(--hanimo-accent) 30%, transparent);
+}
+.empty .pill:hover {
+  background: color-mix(in srgb, var(--hanimo-accent) 22%, transparent);
+  transform: translateY(-1px);
+}
+
+/* — Icon button universal hover ease — */
+.header .icon-btn,
+.composer .icon-btn,
+.bottom-bar .chip {
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* — Code block actions: soft fade-in on hover — */
+.code-block .actions { transition: opacity 0.18s ease; }
+.code-block .mini-btn { transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease; }
+
+/* — Btn primary: subtle gradient + accent glow on hover — */
+.btn-primary {
+  background: linear-gradient(135deg, var(--hanimo-accent), var(--hanimo-accent-soft));
+  box-shadow: 0 1px 3px var(--hanimo-accent-glow);
+  transition: filter 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover { filter: brightness(1.06); box-shadow: 0 2px 8px var(--hanimo-accent-glow); }
+.btn-primary:active { transform: scale(0.97); }
+
+/* — Settings field focus ring — */
+.view-pane input:focus,
+.view-pane select:focus,
+.view-pane textarea:focus {
+  outline: none;
+  border-color: var(--hanimo-accent);
+  box-shadow: 0 0 0 2px var(--hanimo-accent-glow);
+}
+
+/* — Scrollbar refinement (matches active theme accent on hover) — */
+.turns::-webkit-scrollbar,
+.view-pane::-webkit-scrollbar { width: 8px; }
+.turns::-webkit-scrollbar-thumb,
+.view-pane::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--hanimo-fg) 15%, transparent);
+  border-radius: 4px;
+}
+.turns::-webkit-scrollbar-thumb:hover,
+.view-pane::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--hanimo-accent) 50%, transparent);
+}
+
+/* — Reduce motion respected by all polish-layer animations — */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
