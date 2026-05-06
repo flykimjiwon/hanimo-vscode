@@ -1,0 +1,141 @@
+{
+  "name": "hanimo-vscode",
+  "displayName": "hanimo",
+  "description": "Multi-provider AI coding assistant for VS Code — Anthropic, OpenAI, Gemini, DeepSeek, Novita, OpenRouter, Ollama and more.",
+  "version": "0.1.0",
+  "publisher": "hanimo",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "icon": "icon.png",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flykimjiwon/hanimo-vscode"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onView:hanimoCode.chat"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "hanimoCode",
+          "title": "hanimo",
+          "icon": "media/activity-bar.svg"
+        }
+      ]
+    },
+    "views": {
+      "hanimoCode": [
+        {
+          "type": "webview",
+          "id": "hanimoCode.chat",
+          "name": "Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "hanimoCode.newChat",
+        "title": "hanimo: 새 채팅",
+        "icon": "$(add)"
+      },
+      {
+        "command": "hanimoCode.openSettings",
+        "title": "hanimo: 설정",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "hanimoCode.openHistory",
+        "title": "hanimo: 채팅 기록",
+        "icon": "$(history)"
+      },
+      {
+        "command": "hanimoCode.restartServer",
+        "title": "hanimo: 서버 재시작"
+      },
+      {
+        "command": "hanimoCode.sendSelection",
+        "title": "hanimo: 선택 영역 전송"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "hanimoCode.newChat",
+          "when": "view == hanimoCode.chat",
+          "group": "navigation@1"
+        },
+        {
+          "command": "hanimoCode.openHistory",
+          "when": "view == hanimoCode.chat",
+          "group": "navigation@2"
+        },
+        {
+          "command": "hanimoCode.openSettings",
+          "when": "view == hanimoCode.chat",
+          "group": "navigation@3"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "hanimoCode.sendSelection",
+          "when": "editorHasSelection",
+          "group": "1_hanimo"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "hanimo",
+      "properties": {
+        "hanimoCode.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Override path to hanimo-server binary. Empty = use bundled binary."
+        },
+        "hanimoCode.mode": {
+          "type": "string",
+          "enum": [
+            "super",
+            "dev",
+            "plan"
+          ],
+          "default": "super",
+          "description": "Default mode for new chats."
+        },
+        "hanimoCode.maxTurns": {
+          "type": "number",
+          "default": 20,
+          "description": "Maximum tool-use turns per request."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "build:server": "node scripts/build-server.js",
+    "build:server:current": "node scripts/build-server.js --current",
+    "package": "vsce package",
+    "package:all": "node scripts/package-vsix.js",
+    "package:current": "node scripts/package-vsix.js darwin-arm64",
+    "vscode:prepublish": "npm run build"
+  },
+  "dependencies": {
+    "cross-fetch": "^4.1.0",
+    "preact": "^10.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^3.9.1",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.4.0"
+  }
+}

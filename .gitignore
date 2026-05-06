@@ -1,0 +1,21 @@
+node_modules/
+dist/
+bin/
+*.vsix
+*.tsbuildinfo
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Source maps
+*.map
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+credentials.*

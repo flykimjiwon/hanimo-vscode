@@ -1,0 +1,389 @@
+/*
+ * hanimo — webview styles
+ *
+ * Strategy:
+ *  - Layout/text colors come from VS Code theme variables (auto light/dark).
+ *  - Brand accent uses our own tokens (deep blue + bright blue), independent
+ *    of theme so hanimo identity reads in both modes.
+ *  - data-theme="light|dark" is forced to match the host so SVG fills,
+ *    custom shadows, and hover states stay consistent.
+ */
+
+:root {
+  --hanimo-brand: #1e3a8a;        /* deep blue */
+  --hanimo-brand-soft: #1e40af;
+  --hanimo-accent: #3b82f6;       /* bright blue */
+  --hanimo-accent-soft: #60a5fa;
+  --hanimo-accent-glow: rgba(59, 130, 246, 0.18);
+
+  --hanimo-radius-sm: 4px;
+  --hanimo-radius-md: 8px;
+  --hanimo-radius-lg: 12px;
+
+  --hanimo-gap: 8px;
+  --hanimo-pad: 10px;
+  --hanimo-fg: var(--vscode-foreground);
+  --hanimo-fg-dim: color-mix(in srgb, var(--vscode-foreground) 65%, transparent);
+  --hanimo-fg-faint: color-mix(in srgb, var(--vscode-foreground) 40%, transparent);
+  --hanimo-bg: var(--vscode-sideBar-background);
+  --hanimo-bg-elev: var(--vscode-editor-background);
+  --hanimo-border: var(--vscode-panel-border);
+}
+
+html, body { padding: 0; margin: 0; height: 100%; font-family: var(--vscode-font-family); color: var(--hanimo-fg); background: var(--hanimo-bg); }
+* { box-sizing: border-box; }
+button { font-family: inherit; }
+
+/* ---- Shell -------------------------------------------------------------- */
+.app {
+  display: flex; flex-direction: column; height: 100%;
+  font-size: 13px;
+  /* Prevent the whole shell from scrolling — only .turns scrolls.
+     Without this, long messages push the composer off-screen. */
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ---- Header ------------------------------------------------------------- */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 10px; border-bottom: 1px solid var(--hanimo-border);
+  user-select: none;
+}
+.header .tabs { display: flex; gap: 14px; }
+.header .tab {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--hanimo-fg-dim); padding: 4px 0; cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.header .tab.active { color: var(--hanimo-fg); border-bottom-color: var(--hanimo-accent); }
+.header .actions { display: flex; gap: 2px; align-items: center; }
+.header .icon-btn {
+  background: transparent; border: 0; color: var(--hanimo-fg-dim);
+  padding: 4px; cursor: pointer; border-radius: var(--hanimo-radius-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+}
+.header .icon-btn:hover { background: var(--vscode-toolbar-hoverBackground); color: var(--hanimo-fg); }
+.header .sep { width: 1px; height: 16px; background: var(--hanimo-border); margin: 0 4px; }
+
+/* ---- Empty state -------------------------------------------------------- */
+.empty {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 20px; text-align: center; gap: 8px;
+}
+.empty .logo {
+  width: 56px; height: 56px; margin-bottom: 12px;
+  color: var(--hanimo-fg-dim);
+}
+.empty .title { font-size: 14px; font-weight: 600; color: var(--hanimo-fg); }
+.empty .subtitle { font-size: 12px; color: var(--hanimo-fg-dim); }
+.empty .pills { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 16px; }
+.empty .pill {
+  background: var(--hanimo-accent-glow); color: var(--hanimo-accent);
+  border: 1px solid var(--hanimo-accent-glow);
+  font-size: 11px; padding: 4px 10px; border-radius: 20px; cursor: pointer;
+}
+.empty .pill:hover { background: color-mix(in srgb, var(--hanimo-accent) 20%, transparent); }
+
+/* ---- Turns -------------------------------------------------------------- */
+.turns { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.turn.user { align-self: flex-end; max-width: 92%; }
+.turn.user .bubble {
+  background: var(--hanimo-accent); color: white;
+  padding: 8px 12px; border-radius: var(--hanimo-radius-md);
+  white-space: pre-wrap; line-height: 1.45; font-size: 13px;
+  box-shadow: 0 1px 2px var(--hanimo-accent-glow);
+}
+.turn.assistant .bubble {
+  white-space: pre-wrap; line-height: 1.55; font-size: 13px; color: var(--hanimo-fg);
+}
+
+/* tool turn */
+.turn.tool {
+  background: var(--hanimo-bg-elev); border: 1px solid var(--hanimo-border);
+  border-left: 2px solid var(--hanimo-accent);
+  border-radius: var(--hanimo-radius-sm); padding: 6px 10px;
+}
+.turn.tool summary {
+  cursor: pointer; display: flex; gap: 8px; align-items: center;
+  font-size: 12px; color: var(--hanimo-fg);
+}
+.turn.tool summary::-webkit-details-marker { display: none; }
+.turn.tool .name { font-family: var(--vscode-editor-font-family); color: var(--hanimo-accent); }
+.turn.tool .badge { font-size: 10px; padding: 1px 6px; border-radius: 10px; }
+.turn.tool .badge.ok { background: rgba(76, 175, 80, 0.15); color: #4caf50; }
+.turn.tool .badge.err { background: rgba(244, 67, 54, 0.15); color: #f44336; }
+.turn.tool pre {
+  font-family: var(--vscode-editor-font-family); font-size: 11px;
+  background: var(--vscode-textCodeBlock-background); color: var(--hanimo-fg);
+  padding: 6px 8px; margin: 6px 0 0 0; max-height: 220px; overflow: auto;
+  white-space: pre-wrap; word-break: break-all; border-radius: var(--hanimo-radius-sm);
+}
+
+.error-row { color: var(--vscode-errorForeground); padding: 8px; font-size: 12px; }
+
+/* code blocks rendered inside assistant text */
+.code-block { position: relative; margin: 6px 0; }
+.code-block pre {
+  background: var(--vscode-textCodeBlock-background); padding: 10px 12px;
+  border-radius: var(--hanimo-radius-sm); overflow-x: auto;
+  font-family: var(--vscode-editor-font-family); font-size: 12px;
+}
+.code-block .actions { position: absolute; top: 4px; right: 4px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.1s; }
+.code-block:hover .actions { opacity: 1; }
+.code-block .mini-btn {
+  background: var(--hanimo-bg-elev); border: 1px solid var(--hanimo-border);
+  color: var(--hanimo-fg-dim); font-size: 10px; padding: 2px 6px; cursor: pointer; border-radius: 3px;
+}
+.code-block .mini-btn:hover { color: var(--hanimo-accent); border-color: var(--hanimo-accent); }
+
+/* ---- Input -------------------------------------------------------------- */
+.composer {
+  margin: 8px 10px 6px; padding: 8px 10px;
+  border: 1px solid var(--hanimo-accent); border-radius: var(--hanimo-radius-md);
+  background: var(--vscode-input-background);
+  box-shadow: 0 0 0 3px var(--hanimo-accent-glow);
+}
+.composer textarea {
+  width: 100%; resize: none; min-height: 28px; max-height: 200px;
+  background: transparent; color: var(--vscode-input-foreground);
+  border: 0; outline: none; font-family: inherit; font-size: 13px; line-height: 1.4;
+}
+.composer textarea::placeholder { color: var(--hanimo-fg-faint); }
+.composer .row { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+.composer .icon-btn {
+  background: transparent; border: 0; padding: 3px; cursor: pointer;
+  color: var(--hanimo-fg-dim); border-radius: 3px;
+  width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
+}
+.composer .icon-btn:hover { background: var(--vscode-toolbar-hoverBackground); color: var(--hanimo-fg); }
+.composer .mode-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: transparent; border: 0; color: var(--hanimo-fg-dim);
+  font-size: 11px; padding: 3px 6px; cursor: pointer; border-radius: 3px;
+}
+.composer .mode-chip:hover { background: var(--vscode-toolbar-hoverBackground); color: var(--hanimo-fg); }
+.composer .send-btn {
+  margin-left: auto; background: var(--hanimo-accent); color: white; border: 0;
+  width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.composer .send-btn:disabled { background: var(--hanimo-fg-faint); cursor: not-allowed; }
+/* Stop button — neutral gray (no red), readable in both themes. */
+.composer .send-btn.cancel {
+  background: color-mix(in srgb, var(--hanimo-fg) 35%, transparent);
+  color: var(--vscode-editor-background);
+}
+.composer .send-btn.cancel:hover { background: color-mix(in srgb, var(--hanimo-fg) 50%, transparent); }
+
+/* ---- Bottom bar --------------------------------------------------------- */
+.bottom-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 4px 12px 8px; font-size: 11px; color: var(--hanimo-fg-dim);
+}
+.bottom-bar .chip { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; padding: 2px 4px; border-radius: 3px; }
+.bottom-bar .chip:hover { background: var(--vscode-toolbar-hoverBackground); color: var(--hanimo-fg); }
+.bottom-bar .stat { margin-left: auto; }
+
+/* ---- Dropdowns ---------------------------------------------------------- */
+.dropdown {
+  position: absolute; min-width: 220px; max-width: 320px;
+  background: var(--hanimo-bg-elev); border: 1px solid var(--hanimo-border);
+  border-radius: var(--hanimo-radius-sm); box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  padding: 4px; z-index: 100;
+}
+/* Stack label / desc vertically so neither wraps. Description is a hint
+   line under the bold label — readable even in narrow side panels. */
+.dropdown .item {
+  padding: 6px 10px; cursor: pointer; border-radius: 3px; font-size: 12px;
+  display: flex; flex-direction: column; gap: 2px; line-height: 1.35;
+}
+.dropdown .item:hover { background: var(--vscode-list-hoverBackground); }
+.dropdown .item.active { color: var(--hanimo-accent); }
+.dropdown .item .desc { font-size: 10px; color: var(--hanimo-fg-dim); white-space: normal; }
+.dropdown .sep { height: 1px; background: var(--hanimo-border); margin: 4px 0; }
+
+/* ---- Settings + History views ------------------------------------------ */
+.view-pane { flex: 1; overflow-y: auto; padding: 16px; }
+.view-pane h2 { font-size: 13px; font-weight: 600; margin: 0 0 12px 0; color: var(--hanimo-fg); }
+.view-pane h3 { font-size: 12px; font-weight: 600; margin: 18px 0 8px; color: var(--hanimo-fg-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.view-pane label { display: block; font-size: 11px; color: var(--hanimo-fg-dim); margin-bottom: 4px; }
+.view-pane input, .view-pane select, .view-pane textarea {
+  width: 100%; background: var(--vscode-input-background); color: var(--vscode-input-foreground);
+  border: 1px solid var(--vscode-input-border); border-radius: var(--hanimo-radius-sm);
+  padding: 6px 8px; font-size: 12px; font-family: inherit;
+}
+.view-pane textarea { font-family: var(--vscode-editor-font-family); min-height: 200px; resize: vertical; }
+.view-pane .field { margin-bottom: 12px; }
+.view-pane .actions { display: flex; gap: 6px; margin-top: 12px; }
+.btn-primary {
+  background: var(--hanimo-accent); color: white; border: 0; border-radius: var(--hanimo-radius-sm);
+  padding: 6px 14px; cursor: pointer; font-size: 12px; font-weight: 500;
+}
+.btn-primary:hover { background: var(--hanimo-accent-soft); }
+.btn-secondary {
+  background: transparent; color: var(--hanimo-fg); border: 1px solid var(--hanimo-border);
+  padding: 6px 14px; cursor: pointer; border-radius: var(--hanimo-radius-sm); font-size: 12px;
+}
+.btn-secondary:hover { background: var(--vscode-toolbar-hoverBackground); }
+
+.history-list { list-style: none; padding: 0; margin: 0; }
+.history-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 8px; border-radius: var(--hanimo-radius-sm); cursor: pointer;
+  font-size: 12px; color: var(--hanimo-fg);
+}
+.history-item:hover { background: var(--vscode-list-hoverBackground); }
+.history-item.active { background: var(--hanimo-accent-glow); color: var(--hanimo-accent); }
+.history-item .title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-item .when { font-size: 10px; color: var(--hanimo-fg-faint); }
+.history-item .x {
+  background: transparent; border: 0; color: var(--hanimo-fg-faint); cursor: pointer; padding: 0;
+  width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+  visibility: hidden; border-radius: 3px;
+}
+.history-item:hover .x { visibility: visible; }
+.history-item .x:hover { background: rgba(244,67,54,0.18); color: #f44336; }
+
+/* ---- Status indicator -------------------------------------------------- */
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.dot.ok { background: #4caf50; }
+.dot.warn { background: #ffa726; }
+.dot.err { background: #f44336; }
+.dot.pending { background: var(--hanimo-fg-faint); }
+
+/* ---- Markdown viewer --------------------------------------------------- */
+.markdown { font-size: 13px; line-height: 1.6; color: var(--hanimo-fg); }
+.markdown .md-h { margin: 16px 0 8px; font-weight: 600; color: var(--hanimo-fg); }
+.markdown .md-h1 { font-size: 18px; }
+.markdown .md-h2 { font-size: 15px; border-bottom: 1px solid var(--hanimo-border); padding-bottom: 4px; }
+.markdown .md-h3 { font-size: 13px; color: var(--hanimo-accent); }
+.markdown .md-h4, .markdown .md-h5, .markdown .md-h6 { font-size: 12px; color: var(--hanimo-fg-dim); }
+.markdown .md-p { margin: 6px 0; }
+.markdown .md-list { margin: 6px 0; padding-left: 22px; }
+.markdown .md-list li { margin: 2px 0; }
+.markdown .md-quote { margin: 8px 0; padding: 6px 10px; border-left: 3px solid var(--hanimo-accent); background: var(--hanimo-accent-glow); font-size: 12px; color: var(--hanimo-fg-dim); }
+.markdown .md-hr { border: 0; border-top: 1px solid var(--hanimo-border); margin: 14px 0; }
+.markdown code { font-family: var(--vscode-editor-font-family); font-size: 12px; background: var(--vscode-textCodeBlock-background); padding: 1px 4px; border-radius: 3px; }
+.markdown .md-code { background: var(--vscode-textCodeBlock-background); padding: 10px 12px; border-radius: 4px; overflow-x: auto; font-family: var(--vscode-editor-font-family); font-size: 12px; }
+.markdown .md-code code { background: transparent; padding: 0; }
+.markdown a { color: var(--hanimo-accent); text-decoration: none; }
+.markdown a:hover { text-decoration: underline; }
+
+/* ---- File list (knowledge / skills) ----------------------------------- */
+.file-list { display: flex; flex-direction: column; gap: 2px; }
+.file-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px; border-radius: var(--hanimo-radius-sm); cursor: pointer; font-size: 12px;
+}
+.file-row:hover { background: var(--vscode-list-hoverBackground); }
+.file-row.active { background: var(--hanimo-accent-glow); color: var(--hanimo-accent); }
+.file-row .name { flex: 1; }
+.file-row .meta { font-size: 10px; color: var(--hanimo-fg-faint); }
+.file-row .x { background: transparent; border: 0; color: var(--hanimo-fg-faint); cursor: pointer; padding: 2px; border-radius: 3px; visibility: hidden; }
+.file-row:hover .x { visibility: visible; }
+.file-row .x:hover { color: #f44336; }
+
+.split { display: grid; grid-template-columns: 200px 1fr; gap: 12px; height: 100%; }
+.split .pane { overflow-y: auto; }
+.split .pane.left { border-right: 1px solid var(--hanimo-border); padding-right: 8px; }
+
+.viewer-toolbar { display: flex; gap: 4px; margin-bottom: 8px; }
+.toggle-btn {
+  background: transparent; border: 1px solid var(--hanimo-border); color: var(--hanimo-fg-dim);
+  padding: 3px 10px; cursor: pointer; border-radius: 3px; font-size: 11px;
+}
+.toggle-btn.active { background: var(--hanimo-accent); color: white; border-color: var(--hanimo-accent); }
+
+/* mention dropdown */
+.mention-dropdown {
+  position: absolute; bottom: 100%; left: 0; min-width: 240px; max-height: 220px;
+  background: var(--hanimo-bg-elev); border: 1px solid var(--hanimo-border);
+  border-radius: var(--hanimo-radius-sm); box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  padding: 4px; z-index: 100; margin-bottom: 4px; overflow-y: auto;
+}
+.mention-dropdown .group { font-size: 10px; color: var(--hanimo-fg-faint); padding: 4px 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+.mention-dropdown .item { padding: 5px 8px; cursor: pointer; border-radius: 3px; font-size: 12px; }
+.mention-dropdown .item:hover { background: var(--vscode-list-hoverBackground); }
+.mention-dropdown .item .desc { font-size: 10px; color: var(--hanimo-fg-dim); }
+
+.mention-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--hanimo-accent-glow); color: var(--hanimo-accent);
+  font-size: 11px; padding: 1px 8px; border-radius: 10px; margin-right: 4px;
+}
+.mention-chip .x { cursor: pointer; }
+
+/* ---- Toast (transient feedback) ----------------------------------------- */
+.toast {
+  position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+  padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); z-index: 250;
+  animation: toast-in 0.18s ease-out;
+  max-width: 90%; text-align: center;
+}
+.toast-success { background: #2e7d32; color: white; }
+.toast-error { background: #c62828; color: white; }
+.toast-info { background: var(--hanimo-accent); color: white; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---- Confirm modal ------------------------------------------------------ */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center; z-index: 200;
+}
+.modal {
+  background: var(--hanimo-bg-elev); border: 1px solid var(--hanimo-border);
+  border-radius: 6px; padding: 12px; min-width: 240px; max-width: 90%; max-height: 80%;
+  display: flex; flex-direction: column; gap: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.modal-header { font-size: 13px; }
+.modal-args {
+  font-family: var(--vscode-editor-font-family); font-size: 11px;
+  background: var(--vscode-textCodeBlock-background); padding: 6px 8px;
+  border-radius: 4px; max-height: 200px; overflow: auto; margin: 0;
+  white-space: pre-wrap; word-break: break-all;
+}
+.modal-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+/* ---- Spinner ----------------------------------------------------------- */
+.spinner { width: 10px; height: 10px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; opacity: 0.7; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+/* ---- Typing indicator (3 staggered dots) ------------------------------ */
+.typing-indicator { display: inline-flex; gap: 4px; align-items: center; padding: 8px 12px; }
+.typing-indicator .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--hanimo-accent);
+  animation: typing-bounce 1.2s infinite ease-in-out;
+}
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Inline cursor that pulses at the end of the streaming assistant text */
+.stream-cursor {
+  display: inline-block; width: 6px; height: 14px; vertical-align: text-bottom;
+  background: var(--hanimo-accent); margin-left: 2px; border-radius: 1px;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }
+
+/* Status pill near the header / bottom bar */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--hanimo-accent); padding: 1px 8px; border-radius: 10px;
+  background: var(--hanimo-accent-glow);
+}
+.status-pill .mini-spin {
+  width: 8px; height: 8px; border: 1.5px solid currentColor; border-right-color: transparent;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
