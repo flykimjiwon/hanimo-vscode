@@ -19,6 +19,7 @@ type Inbox =
   | { type: 'getConfig' }
   | { type: 'patchConfig'; patch: any }
   | { type: 'listModels' }
+  | { type: 'refreshModels'; provider?: string }
   | { type: 'getKnowledge' }
   | { type: 'putKnowledge'; content: string }
   | { type: 'reindexSymbols' }
@@ -120,6 +121,8 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
         return this.handlePatchConfig(msg.patch);
       case 'listModels':
         return this.handleListModels();
+      case 'refreshModels':
+        return this.handleRefreshModels(msg.provider);
       case 'getKnowledge':
         return this.handleGetKnowledge();
       case 'putKnowledge':
@@ -515,6 +518,19 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
     if (!this.api) return;
     const models = await this.api.listModels();
     this.post({ type: 'models', models });
+  }
+
+  private async handleRefreshModels(provider?: string) {
+    if (!this.api) return;
+    try {
+      const r = await this.api.refreshModels(provider);
+      this.post({ type: 'toast', kind: 'success', message: `Refreshed ${r.count} models from ${r.provider}` });
+      // Re-fetch the merged list so the UI reflects new entries.
+      const models = await this.api.listModels();
+      this.post({ type: 'models', models });
+    } catch (e: any) {
+      this.post({ type: 'toast', kind: 'error', message: `Refresh failed: ${e.message}` });
+    }
   }
 
   private async handleGetKnowledge() {

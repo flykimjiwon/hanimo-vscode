@@ -8,6 +8,7 @@ interface Props {
   rules: { path: string; content: string };
   onPatch: (patch: Partial<ConfigDTO>) => void;
   onListModels: () => void;
+  onRefreshModels: (provider?: string) => void;
   onBack: () => void;
   onReindex: () => void;
   onLoadRules: () => void;
@@ -102,7 +103,7 @@ function detectProvider(baseUrl: string): ProviderId {
   return 'custom';
 }
 
-export function SettingsView({ config, models, rules, onPatch, onListModels, onBack, onReindex, onLoadRules, onSaveRules }: Props) {
+export function SettingsView({ config, models, rules, onPatch, onListModels, onRefreshModels, onBack, onReindex, onLoadRules, onSaveRules }: Props) {
   useLocale();
   const [baseUrl, setBaseUrl] = useState(config?.base_url || '');
   const [apiKey, setApiKey] = useState('');
@@ -232,7 +233,18 @@ export function SettingsView({ config, models, rules, onPatch, onListModels, onB
         )}
       </div>
 
-      <h3>{t('models_section')}</h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 18, marginBottom: 8 }}>
+        <h3 style={{ margin: 0 }}>{t('models_section')}</h3>
+        <button
+          class="btn-secondary"
+          style={{ padding: '3px 10px', fontSize: 11 }}
+          title={`Fetch latest models from ${preset.label}`}
+          onClick={() => onRefreshModels(provider !== 'custom' ? provider : undefined)}
+          disabled={provider === 'ollama' && !config?.has_key && !baseUrl.includes('localhost')}
+        >
+          ↻ Refresh from provider
+        </button>
+      </div>
       <datalist id="model-suggestions">
         {suggestedModels.map((id) => <option value={id} />)}
       </datalist>

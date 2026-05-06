@@ -122,6 +122,7 @@
     "watch": "node esbuild.js --watch",
     "build:server": "node scripts/build-server.js",
     "build:server:current": "node scripts/build-server.js --current",
+    "build:icon": "node scripts/build-icon.js",
     "package": "vsce package",
     "package:all": "node scripts/package-vsix.js",
     "package:current": "node scripts/package-vsix.js darwin-arm64",
@@ -132,6 +133,7 @@
     "preact": "^10.22.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^20.11.0",
     "@types/vscode": "^1.74.0",
     "@vscode/vsce": "^3.9.1",

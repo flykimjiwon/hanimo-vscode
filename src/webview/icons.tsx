@@ -48,16 +48,51 @@ export const History = ({ size = 14, ...p }: Props) =>
 export const Check = ({ size = 12, ...p }: Props) =>
   <svg {...wrap(size)} {...p}><path d="M5 12l5 5L20 7" /></svg>;
 export const Logo = ({ size = 56, ...p }: Props) => (
-  // hanimo mark — chat bubble with bold T + corner sparkle.
-  <svg viewBox="0 0 64 64" width={size} height={size} fill="none" stroke="currentColor"
-       strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...p}>
-    {/* Bubble */}
-    <path d="M10 18a6 6 0 0 1 6-6h28a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H26l-10 9v-9h-0a6 6 0 0 1-6-6z" />
-    {/* Bold T */}
-    <path d="M22 23h20" strokeWidth={3.5} />
-    <path d="M32 23v15" strokeWidth={3.5} />
-    {/* Sparkle */}
-    <path d="M52 6l1.6 4.4L58 12l-4.4 1.6L52 18l-1.6-4.4L46 12l4.4-1.6z"
-          fill="currentColor" stroke="none" />
+  // hanimo mark — Modol the Honey-Bee Bichon. Multi-color, full-fidelity
+  // version of docs/branding/assets/hanimo-logo-compact.svg from hanimo-code.
+  // Used in EmptyState as a hero — currentColor is intentionally NOT used
+  // because the mascot's identity depends on the cream/amber/brown palette.
+  <svg viewBox="0 0 64 64" width={size} height={size} fill="none" role="img" aria-label="hanimo" {...p}>
+    {/* wings (translucent, behind body) */}
+    <ellipse cx="20" cy="38" rx="7" ry="5" fill="#ffd089" opacity="0.55" transform="rotate(-15 20 38)"/>
+    <ellipse cx="44" cy="38" rx="7" ry="5" fill="#ffd089" opacity="0.55" transform="rotate(15 44 38)"/>
+
+    {/* bee body */}
+    <ellipse cx="32" cy="44" rx="18" ry="12" fill="#f5a623"/>
+
+    {/* stripes */}
+    <rect x="18" y="40" width="28" height="3" rx="1" fill="#1a1410"/>
+    <rect x="18" y="48" width="28" height="2.5" rx="1" fill="#1a1410" opacity="0.85"/>
+
+    {/* amber highlight */}
+    <ellipse cx="22" cy="42" rx="4" ry="1.6" fill="#ffd089" opacity="0.7"/>
+
+    {/* head */}
+    <circle cx="32" cy="26" r="14" fill="#f0e4d3"/>
+
+    {/* fluffy fur ring */}
+    <circle cx="32" cy="26" r="14.5" fill="none" stroke="#f7eedf" strokeWidth={0.8} opacity="0.7"/>
+
+    {/* ears */}
+    <ellipse cx="20" cy="24" rx="4" ry="6" fill="#f0e4d3" transform="rotate(-25 20 24)"/>
+    <ellipse cx="44" cy="24" rx="4" ry="6" fill="#f0e4d3" transform="rotate(25 44 24)"/>
+
+    {/* antennae */}
+    <line x1="27" y1="14" x2="24" y2="8" stroke="#1a1410" strokeWidth={1.5} strokeLinecap="round"/>
+    <line x1="37" y1="14" x2="40" y2="8" stroke="#1a1410" strokeWidth={1.5} strokeLinecap="round"/>
+    <circle cx="23" cy="7" r="1.4" fill="#1a1410"/>
+    <circle cx="41" cy="7" r="1.4" fill="#1a1410"/>
+
+    {/* eyes */}
+    <circle cx="27" cy="26" r="1.8" fill="#1a1410"/>
+    <circle cx="37" cy="26" r="1.8" fill="#1a1410"/>
+    <circle cx="27.5" cy="25.4" r="0.55" fill="#f7eedf"/>
+    <circle cx="37.5" cy="25.4" r="0.55" fill="#f7eedf"/>
+
+    {/* nose */}
+    <ellipse cx="32" cy="31" rx="1.7" ry="1.3" fill="#1a1410"/>
+
+    {/* slight smile */}
+    <path d="M 30 34 Q 32 35.5 34 34" stroke="#1a1410" strokeWidth={0.9} strokeLinecap="round" fill="none"/>
   </svg>
 );

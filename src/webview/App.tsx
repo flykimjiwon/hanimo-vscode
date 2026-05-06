@@ -139,6 +139,7 @@ export function App() {
   const diff = (filePath: string, content: string) => vscode.postMessage({ type: 'diff', filePath, content });
   const patchConfig = (patch: Partial<ConfigDTO>) => vscode.postMessage({ type: 'patchConfig', patch });
   const listModels = () => vscode.postMessage({ type: 'listModels' });
+  const refreshModels = (provider?: string) => vscode.postMessage({ type: 'refreshModels', provider });
   const reindex = () => vscode.postMessage({ type: 'reindexSymbols' });
 
   const loadProjectMd = () => vscode.postMessage({ type: 'getKnowledge' });
@@ -168,7 +169,7 @@ export function App() {
   const setMode = (mode: string) => session && setSession({ ...session, mode });
 
   const renderBody = () => {
-    if (view === 'settings') return <SettingsView config={config} models={models} rules={rules} onPatch={patchConfig} onListModels={listModels} onBack={() => setView('chat')} onReindex={reindex} onLoadRules={loadRules} onSaveRules={saveRules} />;
+    if (view === 'settings') return <SettingsView config={config} models={models} rules={rules} onPatch={patchConfig} onListModels={listModels} onRefreshModels={refreshModels} onBack={() => setView('chat')} onReindex={reindex} onLoadRules={loadRules} onSaveRules={saveRules} />;
     if (view === 'history') return <HistoryView sessions={sessions} activeId={session?.id ?? null} onSwitch={switchChat} onDelete={deleteChat} onBack={() => setView('chat')} />;
     if (view === 'knowledge') return <KnowledgeView dir={kbDir} files={kbFiles} selected={kbSelected} projectMd={projectMd} onListFiles={listKbFiles} onReadFile={readKbFile} onWriteFile={writeKbFile} onDeleteFile={deleteKbFile} onLoadTechaiMd={loadProjectMd} onSaveTechaiMd={saveProjectMd} onBack={() => setView('chat')} />;
     if (view === 'skills') return <SkillsView dir={skillDir} skills={skills} selected={skillSelected} onList={listSkills} onRead={readSkill} onWrite={writeSkill} onDelete={deleteSkill} onBack={() => setView('chat')} />;

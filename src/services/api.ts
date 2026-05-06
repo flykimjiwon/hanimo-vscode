@@ -84,6 +84,21 @@ export class ApiClient {
     return j.models;
   }
 
+  // Refreshes the live model list from the active provider's /models endpoint.
+  // Server caches with 24h TTL keyed on (provider, base_url). Subsequent
+  // listModels() calls return the merged result.
+  async refreshModels(provider?: string): Promise<{ provider: string; count: number; models: ModelDTO[] }> {
+    const url = provider
+      ? `${this.baseUrl}/models/refresh?provider=${encodeURIComponent(provider)}`
+      : `${this.baseUrl}/models/refresh`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!res.ok) throw new Error(`POST /models/refresh failed: ${res.status} ${await res.text()}`);
+    return res.json();
+  }
+
   async getKnowledge(): Promise<{ path: string; content: string }> {
     return getJson(`${this.baseUrl}/knowledge`);
   }
