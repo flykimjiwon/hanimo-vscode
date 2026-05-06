@@ -4,6 +4,9 @@ bin/
 *.vsix
 *.tsbuildinfo
 
+# OMC (oh-my-claudecode) tooling state — not source code
+.omc/
+
 # OS / IDE
 .DS_Store
 .vscode/
