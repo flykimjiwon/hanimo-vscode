@@ -136,6 +136,12 @@ export function SettingsView({ config, models, rules, onPatch, onListModels, onR
       if (!devModel || !next.models.includes(devModel)) setDevModel(next.models[0]);
       if (!planModel || !next.models.includes(planModel)) setPlanModel(next.models[0]);
     }
+    // Ollama is the only preset that doesn't need an API key; we can refresh
+    // its model list immediately. For everything else we wait until Save
+    // because the server still has the previous credentials in memory.
+    if (id === 'ollama') {
+      setTimeout(() => onRefreshModels('ollama'), 300);
+    }
   };
 
   const save = () => {
@@ -147,6 +153,12 @@ export function SettingsView({ config, models, rules, onPatch, onListModels, onR
     };
     if (apiKey.trim()) patch.api_key = apiKey.trim();
     onPatch(patch);
+    // After credentials/baseURL are persisted, ask the server to refresh the
+    // model list from the active provider. Failures are surfaced as a toast
+    // (non-fatal — registry fallback still works).
+    if (provider !== 'custom') {
+      setTimeout(() => onRefreshModels(provider), 400);
+    }
   };
 
   // Suggested models in the datalist combine the global model registry from

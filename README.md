@@ -1,6 +1,20 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/flykimjiwon/hanimo-vscode/main/media/hanimo-logo.svg" alt="hanimo" width="128" height="128" />
+
 # hanimo — VS Code Extension
 
-Multi-provider AI coding assistant for VS Code. Powered by [hanimo-code](https://github.com/flykimjiwon/hanimo-code).
+**Multi-provider AI coding assistant.** Anthropic · OpenAI · Gemini · DeepSeek · Novita · OpenRouter · Ollama · Custom.
+
+Powered by [hanimo-code](https://github.com/flykimjiwon/hanimo-code) · 26 tools · 12 themes · 3 modes
+
+[Install](#install-from-vsix) · [Features](#features) · [Architecture](#architecture) · [Build](#build-from-source)
+
+</div>
+
+---
+
+> 📸 _Screenshots & demo GIF coming soon — extension is currently in early access._
 
 ## Providers supported
 
@@ -38,6 +52,20 @@ hanimo-code internal/{llm, tools, knowledge, skills, hooks, ...}
 ```
 
 The extension spawns a bundled `hanimo-server` per workspace. The server is the same engine the [hanimo](https://github.com/flykimjiwon/hanimo-code) TUI uses — multi-provider LLM client, 26 tools, hooks, knowledge/skills layer.
+
+## Install from .vsix
+
+Until we publish to the VS Code Marketplace, grab a build from
+[GitHub Releases](https://github.com/flykimjiwon/hanimo-vscode/releases) and
+sideload it:
+
+```bash
+# pick the .vsix matching your OS/arch
+code --install-extension hanimo-vscode-darwin-arm64.vsix --force
+```
+
+Then open the **hanimo** sidebar (activity bar) → Settings → choose your
+provider → paste API key → Save → start chatting.
 
 ## Build from source
 

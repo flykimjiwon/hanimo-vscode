@@ -1,0 +1,86 @@
+# On a `v*` tag push: cross-compile hanimo-server (Go, 4 OS) + bundle the
+# extension (esbuild) + render four platform-specific .vsix files + upload
+# them to the GitHub Release the tag created.
+#
+# Runs on a single ubuntu runner because Go cross-compiles and `vsce package
+# --target` is a tarball repack — no native macOS / Windows tooling needed.
+#
+# Required: a sibling checkout of hanimo-code at $GITHUB_WORKSPACE/hanimo-code.
+# We do that here with a second `actions/checkout`. If you fork this and rename,
+# update the `repository` field below.
+
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # needed for `gh release upload`
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout hanimo-vscode
+        uses: actions/checkout@v4
+
+      - name: Checkout hanimo-code (sibling, used by build-server.js)
+        uses: actions/checkout@v4
+        with:
+          repository: flykimjiwon/hanimo-code
+          path: ../hanimo-code-tmp
+          fetch-depth: 1
+
+      # build-server.js resolves repo as `path.resolve(__dirname, '..', '..',
+      # 'hanimo-code')`, i.e. one level above the extension dir. The default
+      # GitHub layout puts everything inside the workspace dir, so we move
+      # the sibling up by one level.
+      - name: Move hanimo-code to expected sibling location
+        run: |
+          mv "${{ github.workspace }}/../hanimo-code-tmp" "${{ github.workspace }}/../hanimo-code"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+          cache-dependency-path: ../hanimo-code/go.sum
+
+      - name: Install npm deps
+        run: npm ci
+
+      - name: Render icon (SVG → PNG)
+        run: npm run build:icon
+
+      - name: Bundle extension + webview (esbuild)
+        run: npm run build
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Cross-compile hanimo-server (4 OS)
+        run: npm run build:server
+
+      - name: Package 4 .vsix
+        run: npm run package:all
+
+      - name: List artifacts
+        run: ls -la *.vsix
+
+      - name: Upload to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" \
+            hanimo-vscode-darwin-arm64.vsix \
+            hanimo-vscode-darwin-x64.vsix \
+            hanimo-vscode-linux-x64.vsix \
+            hanimo-vscode-win32-x64.vsix \
+            --clobber
