@@ -80,6 +80,18 @@ npm run package:current        # produce .vsix
 
 Requires `hanimo-code` checked out alongside this repo (or set `HANIMO_CODE_REPO=/path/to/hanimo-code`).
 
+## hanimo ecosystem
+
+hanimo-vscode is part of **hanimo** — a personal suite of open-source AI coding tools by Kim Jiwon (김지원).
+
+| Project | What it is |
+|---|---|
+| [hanimo-code](https://github.com/flykimjiwon/hanimo-code) | Terminal AI coding agent (Go) — the flagship |
+| [hanimo-rag](https://github.com/flykimjiwon/hanimo-rag) | Agentic LiteRAG — LLM-native retrieval, zero vector infra |
+| [hanimo-webui](https://github.com/flykimjiwon/hanimo-webui) | Browser AI chat / dashboard |
+| **hanimo-vscode** (this repo) | VS Code extension — powered by hanimo-code |
+| [hanimo-community](https://github.com/flykimjiwon/hanimo-community) | Docs & community hub |
+
 ## License
 
-Apache-2.0
+Apache-2.0 — Copyright © 2025-2026 Kim Jiwon (김지원). See [LICENSE](LICENSE), [NOTICE](NOTICE), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
